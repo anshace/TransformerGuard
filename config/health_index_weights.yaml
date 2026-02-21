@@ -1,0 +1,96 @@
+# Health Index (HI) Component Weights
+# Weights must sum to 1.0
+
+weights:
+  # DGA Factor - Most important for transformer health
+  dga: 0.35
+  
+  # Oil Quality Factor
+  oil_quality: 0.20
+  
+  # Electrical Tests Factor
+  electrical: 0.15
+  
+  # Age Factor - Based on expected life
+  age: 0.15
+  
+  # Loading History Factor
+  loading: 0.15
+
+# DGA Score Mapping (0-4 scale to 0-100)
+dga_score:
+  # Based on Duval fault type and gas levels
+  4:  # Excellent - Normal operation
+    fault_types: ["NORMAL"]
+    max_tdcg: 720
+  3:  # Good - Minor concerns
+    fault_types: ["PD", "T1"]
+    max_tdcg: 1920
+  2:  # Fair - Moderate concern
+    fault_types: ["T2", "DT"]
+    max_tdcg: 4630
+  1:  # Poor - Significant concern
+    fault_types: ["D1"]
+    max_tdcg: 7190
+  0:  # Critical - Immediate action
+    fault_types: ["D2", "T3"]
+    max_tdcg: 99999
+
+# Oil Quality Score Mapping (0-4 scale to 0-100)
+oil_quality_score:
+  dielectric_strength:
+    excellent: 60  # kV
+    good: 50
+    fair: 40
+    poor: 30
+  moisture_content:
+    excellent: 10  # ppm
+    good: 15
+    fair: 25
+    poor: 35
+  acidity:
+    excellent: 0.1  # mgKOH/g
+    good: 0.2
+    fair: 0.3
+    poor: 0.5
+
+# Age Score Mapping
+age_score:
+  # Age in years to score (0-100)
+  0: 100    # New transformer
+  5: 95
+  10: 85
+  15: 75
+  20: 60
+  25: 45
+  30: 30
+  35: 15
+  40: 5     # End of expected life
+
+# Loading Score Mapping
+loading_score:
+  # Based on percentage of rated load over lifetime
+  average_load_to_score:
+    0: 100    # No load
+    30: 95
+    50: 90
+    70: 80
+    80: 70
+    90: 60
+    100: 50
+    110: 40
+    120: 30
+
+# Health Index Categories
+categories:
+  excellent: { min: 85, max: 100, color: "#2ecc71" }
+  good: { min: 70, max: 84, color: "#27ae60" }
+  fair: { min: 50, max: 69, color: "#f39c12" }
+  poor: { min: 25, max: 49, color: "#e67e22" }
+  critical: { min: 0, max: 24, color: "#e74c3c" }
+
+# Trend Analysis Thresholds
+trends:
+  improvement_threshold: 5   # Points increase
+  degradation_threshold: -5  # Points decrease
+  significant_change: 15     # Major concern trigger

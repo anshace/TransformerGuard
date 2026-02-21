@@ -1,0 +1,71 @@
+# IEEE C57.104-2019 Dissolved Gas Analysis Thresholds
+# All values in ppm (parts per million)
+
+# Key gases and their typical limits
+key_gases:
+  hydrogen: { h2: { typical: 100, alarm: 100, warning: 50 } }
+  methane: { ch4: { typical: 120, alarm: 120, warning: 60 } }
+  ethane: { c2h6: { typical: 50, alarm: 50, warning: 25 } }
+  ethylene: { c2h4: { typical: 50, alarm: 50, warning: 20 } }
+  acetylene: { c2h2: { typical: 2, alarm: 2, warning: 1 } }
+  carbon_monoxide: { co: { typical: 350, alarm: 350, warning: 100 } }
+  carbon_dioxide: { co2: { typical: 2500, alarm: 2500, warning: 1000 } }
+  oxygen: { o2: { typical: 20000, alarm: 20000, warning: 10000 } }
+  nitrogen: { n2: { typical: 50000, alarm: 50000, warning: 48000 } }
+
+# Total dissolved combustible gas (TDCG) limits
+tdcg_limits:
+  level1: 720    # Generally acceptable
+  level2: 1920   # Monitor condition
+  level3: 4630   # Action required
+  level4: 7190   # Rapid action required
+
+# Duval Triangle gas percentage boundaries
+duval_triangle:
+  # CH4-C2H4-C2H2 triangle zones
+  zones:
+    PD:   { ch4_min: 80, c2h4_max: 20, c2h2_max: 2 }
+    D1:   { ch4_max: 40, c2h4_max: 23, c2h2_min: 13 }
+    D2:   { ch4_max: 40, c2h4_min: 23, c2h4_max: 40, c2h2_min: 13 }
+    T1:   { ch4_min: 50, c2h4_max: 20, c2h2_max: 4 }
+    T2:   { ch4_min: 20, c2h4_min: 20, c2h4_max: 50, c2h2_max: 4 }
+    T3:   { ch4_min: 10, c2h4_min: 50, c2h2_max: 15 }
+    DT:   { ch4_max: 80, c2h4_max: 50, c2h2_min: 4, c2h2_max: 13 }
+
+# Rogers Ratio Method thresholds (IEC 60599)
+rogers_ratios:
+  c2h2_c2h4:
+    limit: 0.1
+    high: 1.0
+    low: 0.1
+  ch4_h2:
+    limit: 1.0
+    high: 3.0
+    low: 0.1
+  c2h4_c2h6:
+    limit: 1.0
+    high: 3.0
+    low: 1.0
+  co2_co:
+    limit: 0.1
+    high: 3.0
+    low: 0.1
+
+# IEC Ratio Method thresholds
+iec_ratios:
+  c2h2_c2h4: { low: 0.1, high: 1.0 }
+  ch4_h2: { low: 0.1, high: 1.0 }
+  c2h4_c2h6: { low: 1.0, high: 3.0 }
+  co2_co: { low: 0.1, high: 1.0 }
+
+# Doernenburg Ratio Method thresholds
+doernenburg:
+  # Key gas method thresholds
+  key_gas_limits:
+    h2: 100
+    ch4: 120
+    c2h6: 50
+    c2h4: 50
+    c2h2: 2
+    co: 350
+    co2: 2500

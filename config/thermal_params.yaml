@@ -1,0 +1,75 @@
+# IEEE C57.91-2011 Thermal Model Parameters
+
+# Ambient temperature parameters
+ambient:
+  default: 25  # °C
+  daily_average: 20
+  yearly_average: 20
+
+# Hot-spot temperature parameters
+hotspot:
+  # Temperature rise constants
+  constant: 0  # Base temperature (°C)
+  gradient: 65  # Winding hot-spot gradient over ambient at rated load (°C)
+  exponent: 0.8  # Exponential factor for loading
+
+# Loading factors
+loading:
+  # Nameplate rating assumptions
+  nameplate_mva: 25  # Default MVA
+  rated_current: 1200  # Amperes
+  rated_voltage: 138000  # Volts
+
+  # Load factor classifications
+  normal: 0.5    # Normal loading (50% of rated)
+  emergency: 1.2  # Emergency loading (120% of rated)
+
+# Insulation aging parameters (IEEE C57.91)
+insulation:
+  # Reference hot-spot temperature (°C)
+  reference_hotspot: 110
+  
+  # Aging rate acceleration factors
+  # Every 6°C above reference doubles aging rate
+  temperature_exponent: 0.075
+  
+  # Insulation life constants
+  life_years: 20.5  # Minimum life expectancy (IEEE Std C57.12.00)
+  life_hours: 180000  # Hours
+  
+  # Cellulose degradation rate
+  cellulose_degradation: 0.0343  # Per hour at 110°C
+
+# Top-oil temperature rise
+top_oil:
+  constant: 30  # °C
+  gradient: 45  # °C at rated load
+  exponent: 0.8
+
+# Cooling mode parameters
+cooling:
+  ONAN:  # Oil Natural, Air Natural
+    top_oil_rise: 45
+    hotspot_gradient: 65
+  ONAF:  # Oil Natural, Air Forced
+    top_oil_rise: 40
+    hotspot_gradient: 55
+  OFAF:  # Oil Forced, Air Forced
+    top_oil_rise: 35
+    hotspot_gradient: 50
+  ODCF:  # Oil Directed, Air Forced
+    top_oil_rise: 30
+    hotspot_gradient: 45
+
+# Aging acceleration factor table
+aging_acceleration:
+  # Temperature (°C) : Acceleration Factor
+  80: 0.01
+  90: 0.04
+  100: 0.14
+  110: 0.50
+  120: 1.00  # Reference
+  130: 2.00
+  140: 4.00
+  150: 8.00
+  160: 16.00

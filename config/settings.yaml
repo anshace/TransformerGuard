@@ -1,0 +1,44 @@
+# Application settings
+app:
+  name: "TransformerGuard"
+  version: "1.0.0"
+  debug: false
+  environment: "production"
+
+# Database configuration
+database:
+  type: "sqlite"  # or "postgresql"
+  path: "data/transformerguard.db"
+  pool_size: 10
+  max_overflow: 20
+
+# API configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8501"  # Streamlit
+
+# Dashboard configuration
+dashboard:
+  title: "TransformerGuard Dashboard"
+  theme: "light"
+  refresh_interval: 300  # seconds
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/transformerguard.log"
+
+# Weather API (Open-Meteo)
+weather:
+  api_url: "https://api.open-meteo.com/v1/forecast"
+  enabled: true
+
+# Report settings
+reports:
+  output_dir: "data/reports"
+  format: "pdf"
+  include_charts: true
