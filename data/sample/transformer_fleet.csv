@@ -1,0 +1,6 @@
+id,name,serial_number,manufacturer,manufacture_date,installation_date,rated_mva,rated_voltage_kv,cooling_type,location,substation
+1,TR-MAIN-001,SN-2015-001,ABB,2015-03-15,2015-09-01,25,138,ONAF,Downtown Substation,Central
+2,TR-MAIN-002,SN-2018-002,Siemens,2018-06-20,2018-12-15,40,230,ONAF,North Substation,North
+3,TR-SUB-001,SN-2010-003,GE,2010-01-10,2010-06-01,15,69,ONAN,East Substation,East
+4,TR-SUB-002,SN-2020-004,ABB,2020-08-05,2021-01-15,20,138,ONAF,West Substation,West
+5,TR-IND-001,SN-2005-005,Siemens,2005-11-20,2006-03-01,10,34.5,ONAN,Industrial Park,Industrial

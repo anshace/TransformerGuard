@@ -1,0 +1,10 @@
+transformer_id,sample_date,dielectric_strength_kv,moisture_ppm,acidity_mgkohg,interfacial_tension,color,visual_inspection
+1,2024-01-15,55,12,0.15,28,Clear,Normal
+1,2024-07-15,52,15,0.18,26,Clear,Normal
+2,2024-01-20,60,8,0.10,32,Clear,Normal
+2,2024-07-20,58,10,0.12,30,Clear,Normal
+3,2024-02-01,45,25,0.35,18,Dark,Abnormal
+3,2024-03-01,40,30,0.45,14,Dark,Abnormal
+4,2024-01-10,62,6,0.08,35,Clear,Normal
+4,2024-07-10,60,8,0.10,33,Clear,Normal
+5,2024-03-01,38,35,0.55,12,Very Dark,Critical

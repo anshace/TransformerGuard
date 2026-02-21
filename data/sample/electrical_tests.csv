@@ -1,0 +1,10 @@
+transformer_id,test_date,power_factor_percent,capacitance_pf,insulation_resistance_gohm,winding_resistance_ohm,test_type
+1,2024-01-15,0.35,1250.5,25,0.245,Routine
+1,2024-07-15,0.42,1248.2,22,0.248,Routine
+2,2024-01-20,0.28,1800.3,35,0.185,Routine
+2,2024-07-20,0.32,1798.1,33,0.187,Routine
+3,2024-02-01,0.85,980.5,8,0.320,Emergency
+3,2024-03-01,1.05,950.2,5,0.340,Follow-up
+4,2024-01-10,0.25,1450.8,40,0.210,Routine
+4,2024-07-10,0.28,1448.5,38,0.212,Routine
+5,2024-03-01,1.20,850.2,3,0.450,Emergency
