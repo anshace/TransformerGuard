@@ -21,7 +21,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import (
     DeclarativeBase,
-    RelationshipProperty,
+    Mapped,
     Session,
     relationship,
     sessionmaker,
@@ -58,31 +58,31 @@ class Transformer(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Relationships
-    dga_records: RelationshipProperty = relationship(
+    dga_records: Mapped["DGARecord"] = relationship(
         "DGARecord",
         back_populates="transformer",
         cascade="all, delete-orphan",
         order_by="DGARecord.sample_date.desc()",
     )
-    health_records: RelationshipProperty = relationship(
+    health_records: Mapped["HealthIndexRecord"] = relationship(
         "HealthIndexRecord",
         back_populates="transformer",
         cascade="all, delete-orphan",
         order_by="HealthIndexRecord.calculation_date.desc()",
     )
-    alerts: RelationshipProperty = relationship(
+    alerts: Mapped["Alert"] = relationship(
         "Alert",
         back_populates="transformer",
         cascade="all, delete-orphan",
         order_by="Alert.created_at.desc()",
     )
-    load_records: RelationshipProperty = relationship(
+    load_records: Mapped["LoadRecord"] = relationship(
         "LoadRecord",
         back_populates="transformer",
         cascade="all, delete-orphan",
         order_by="LoadRecord.timestamp.desc()",
     )
-    thermal_records: RelationshipProperty = relationship(
+    thermal_records: Mapped["ThermalRecord"] = relationship(
         "ThermalRecord",
         back_populates="transformer",
         cascade="all, delete-orphan",
@@ -134,7 +134,7 @@ class DGARecord(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # Relationship
-    transformer: RelationshipProperty = relationship(
+    transformer: Mapped["Transformer"] = relationship(
         "Transformer", back_populates="dga_records"
     )
 
@@ -176,7 +176,7 @@ class HealthIndexRecord(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # Relationship
-    transformer: RelationshipProperty = relationship(
+    transformer: Mapped["Transformer"] = relationship(
         "Transformer", back_populates="health_records"
     )
 
@@ -214,7 +214,7 @@ class Alert(Base):
     resolved_at = Column(DateTime)
 
     # Relationship
-    transformer: RelationshipProperty = relationship(
+    transformer: Mapped["Transformer"] = relationship(
         "Transformer", back_populates="alerts"
     )
 
@@ -243,7 +243,7 @@ class LoadRecord(Base):
     current_a = Column(Float)
 
     # Relationship
-    transformer: RelationshipProperty = relationship(
+    transformer: Mapped["Transformer"] = relationship(
         "Transformer", back_populates="load_records"
     )
 
@@ -278,7 +278,7 @@ class ThermalRecord(Base):
     loss_of_life_hours = Column(Float)
 
     # Relationship
-    transformer: RelationshipProperty = relationship(
+    transformer: Mapped["Transformer"] = relationship(
         "Transformer", back_populates="thermal_records"
     )
 
