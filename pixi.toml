@@ -1,5 +1,5 @@
 [workspace]
-authors = ["❖Mʀ᭄Anshᴿᵒˢʰᵃⁿ࿐ <ianshroshan@gmail.com>"]
+authors = ["『ᴀɴsʜ』•ᴀᴄᴇツ <anshace@duck.com>"]
 channels = ["conda-forge"]
 name = "TransformerGuard"
 platforms = ["linux-64"]
@@ -9,3 +9,19 @@ version = "0.1.0"
 
 [dependencies]
 python = ">=3.14.3,<3.15"
+fastapi = ">=0.129.0,<0.130"
+uvicorn = ">=0.41.0,<0.42"
+pydantic = ">=2.12.5,<3"
+sqlalchemy = ">=2.0.46,<3"
+pyyaml = ">=6.0.3,<7"
+numpy = ">=2.4.2,<3"
+pandas = ">=3.0.1,<4"
+openpyxl = ">=3.1.5,<4"
+matplotlib = ">=3.10.8,<4"
+plotly = ">=6.5.2,<7"
+streamlit = ">=1.8.0,<2"
+reportlab = ">=4.4.10,<5"
+jinja2 = ">=3.1.6,<4"
+pytest = ">=9.0.2,<10"
+pytest-cov = ">=7.0.0,<8"
+scikit-learn = ">=1.8.0,<2"
