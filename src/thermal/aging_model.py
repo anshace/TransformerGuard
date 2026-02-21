@@ -99,11 +99,12 @@ class AgingModel:
             # At 110°C, F_AA = 0.5 (half the rate at 116°C)
             # At 116°C, F_AA = 1.0
             temp_diff = temp - self.reference_hotspot
-            if temp_diff <= 0:
+            if temp_diff < 0:
                 # Below reference: use Arrhenius for low temperatures
                 factor = self._calculate_arrhenius_factor(temp)
             else:
-                # Above reference: use exponential doubling
+                # At or above reference: use exponential doubling
+                # At reference (110°C): temp_diff = 0, factor = 0.5 * 2^0 = 0.5
                 factor = 0.5 * (2 ** (temp_diff / AGING_DOUBLING_TEMP))
 
             table[temp] = factor

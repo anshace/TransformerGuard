@@ -12,6 +12,7 @@ Available Methods:
 - Doernenburg: Key gas and ratio method
 - Key Gas: Individual gas concentration analysis
 - Multi-Method: Ensemble of all methods with consensus
+- ML Classifier: Machine learning-based fault classification
 
 Author: TransformerGuard Team
 """
@@ -20,6 +21,7 @@ from .doernenburg import Doernenburg, DoernenburgResult
 from .duval_triangle import DuvalPentagon, DuvalResult, DuvalTriangle1, FaultType
 from .iec_ratios import IecRatios, IecResult
 from .key_gas import KeyGasMethod, KeyGasResult
+from .ml_classifier import DGAFaultClassifier, MLClassifierResult, create_default_classifier
 from .multi_method import DiagnosisResult, MultiMethodDiagnosis
 from .rogers_ratios import RogersRatios, RogersResult
 
@@ -41,6 +43,10 @@ __all__ = [
     # Key Gas
     "KeyGasMethod",
     "KeyGasResult",
+    # ML Classifier
+    "DGAFaultClassifier",
+    "MLClassifierResult",
+    "create_default_classifier",
     # Multi-Method Ensemble
     "MultiMethodDiagnosis",
     "DiagnosisResult",

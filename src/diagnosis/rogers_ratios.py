@@ -179,6 +179,12 @@ class RogersRatios:
         """
         Get the Rogers ratio code for a given ratio value.
 
+        IEC 60599 standard codes:
+        - Code 0: ratio < low_limit
+        - Code 1: low_limit ≤ ratio < 1
+        - Code 2: 1 ≤ ratio ≤ 3
+        - Code 5: ratio > 3
+
         Args:
             ratio: The calculated ratio value
             ratio_name: Name of the ratio (e.g., 'c2h2_c2h4')
@@ -187,14 +193,13 @@ class RogersRatios:
             Code: 0, 1, 2, or 5
         """
         thresholds = self.config.get(ratio_name, {})
-        limit = thresholds.get("limit", 0.1)
-        high = thresholds.get("high", 1.0)
+        low = thresholds.get("low", 0.1)
 
-        if ratio < limit:
+        if ratio < low:
             return 0
-        elif ratio < 1:
+        elif ratio < 1.0:
             return 1
-        elif ratio <= high:
+        elif ratio <= 3.0:
             return 2
         else:
             return 5

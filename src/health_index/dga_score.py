@@ -10,6 +10,8 @@ from typing import Dict, List, Optional
 
 import yaml
 
+from src.diagnosis.multi_method import MultiMethodDiagnosis
+
 
 @dataclass
 class DGAScoreResult:
@@ -82,7 +84,7 @@ class DGAScoreCalculator:
 
     def determine_fault_type(self, gases: Dict[str, float]) -> str:
         """
-        Determine fault type based on gas ratios using Duval Triangle method
+        Determine fault type based on gas ratios using multi-method diagnosis
 
         Args:
             gases: Dictionary of gas concentrations in ppm
@@ -91,63 +93,37 @@ class DGAScoreCalculator:
             Fault type code (NORMAL, PD, D1, D2, T1, T2, T3, DT)
         """
         # Get gas values (default to 0 if not present)
-        h2 = gases.get("H2", 0)
-        ch4 = gases.get("CH4", 0)
-        c2h2 = gases.get("C2H2", 0)
-        c2h4 = gases.get("C2H4", 0)
-        c2h6 = gases.get("C2H6", 0)
-        co = gases.get("CO", 0)
-        co2 = gases.get("CO2", 0)
+        # Support both uppercase and lowercase gas keys
+        h2 = gases.get("H2", gases.get("h2", 0))
+        ch4 = gases.get("CH4", gases.get("ch4", 0))
+        c2h2 = gases.get("C2H2", gases.get("c2h2", 0))
+        c2h4 = gases.get("C2H4", gases.get("c2h4", 0))
+        c2h6 = gases.get("C2H6", gases.get("c2h6", 0))
+        co = gases.get("CO", gases.get("co", 0))
+        co2 = gases.get("CO2", gases.get("co2", 0))
 
-        # Calculate total for percentage calculation
-        total = h2 + ch4 + c2h2 + c2h4 + c2h6 + co + co2
+        # Use multi-method diagnosis for fault detection
+        diagnosis = MultiMethodDiagnosis()
+        result = diagnosis.diagnose(
+            h2=h2, ch4=ch4, c2h2=c2h2, c2h4=c2h4, c2h6=c2h6, co=co, co2=co2
+        )
 
-        if total == 0:
-            return "NORMAL"
+        # Map severity to fault type for scoring
+        # The severity gives us a simpler classification
+        severity_to_fault = {
+            "NORMAL": "NORMAL",
+            "LOW": "PD",  # Low severity typically indicates PD or T1
+            "MEDIUM": "T2",  # Medium severity indicates T2
+            "HIGH": "D1",  # High severity indicates D1 or DT
+            "CRITICAL": "D2",  # Critical indicates D2 or T3
+            "UNKNOWN": "NORMAL",
+        }
 
-        # Calculate percentages for Duval triangle
-        # C2H2 percentage
-        pct_c2h2 = (c2h2 / total) * 100 if total > 0 else 0
-        # CH4 percentage
-        pct_ch4 = (ch4 / total) * 100 if total > 0 else 0
-        # C2H4 percentage
-        pct_c2h4 = (c2h4 / total) * 100 if total > 0 else 0
-        # CO percentage
-        pct_co = (co / total) * 100 if total > 0 else 0
+        # Get the fault type name from the FaultType enum
+        fault_type_name = result.fault_type.name
 
-        # Duval Triangle simplified logic
-        # Using the key ratios for fault diagnosis
-
-        # Check for Partial Discharge (high H2, low hydrocarbons)
-        if h2 > 100 and (c2h2 + c2h4 + ch4) < 50:
-            return "PD"
-
-        # Check for Thermal faults
-        if c2h4 > 0:
-            # Calculate C2H2/C2H4 ratio
-            if c2h2 / c2h4 < 0.1:
-                # Low C2H2/C2H4 indicates thermal
-                if pct_c2h4 > 40:
-                    return "T3"  # High temp thermal
-                elif pct_c2h4 > 20:
-                    return "T2"  # Medium temp thermal
-                else:
-                    return "T1"  # Low temp thermal
-
-        # Check for Discharge faults
-        if c2h2 > 0:
-            # High C2H2 indicates discharge
-            if c2h2 / c2h4 > 0.2:
-                return "D2"  # High energy discharge
-            elif c2h2 / c2h4 > 0.05:
-                return "D1"  # Low energy discharge
-
-        # Check for combined thermal and discharge
-        if c2h2 > 10 and c2h4 > 50:
-            return "DT"
-
-        # Default to normal if no clear fault
-        return "NORMAL"
+        # Return the actual fault type from diagnosis
+        return fault_type_name
 
     def calculate_score(
         self,

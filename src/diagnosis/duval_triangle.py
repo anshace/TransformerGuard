@@ -336,6 +336,26 @@ class DuvalTriangle1:
         # Calculate gas percentages
         ch4_pct, c2h4_pct, c2h2_pct = self._calculate_percentages(ch4, c2h4, c2h2)
 
+        # Check if gases are very low (normal operation) - check this FIRST
+        # Duval Triangle doesn't have a NORMAL zone, so we use a threshold
+        if ch4 + c2h4 + c2h2 < 10:  # Very low total
+            fault_type = FaultType.NORMAL
+            explanation = self._generate_explanation(
+                fault_type, ch4_pct, c2h4_pct, c2h2_pct, "NORMAL"
+            )
+            return DuvalResult(
+                fault_type=fault_type,
+                confidence=0.90,
+                explanation=explanation,
+                method_name=self.method_name,
+                gas_percentages={
+                    "CH4": ch4_pct,
+                    "C2H4": c2h4_pct,
+                    "C2H2": c2h2_pct,
+                },
+                zone="NORMAL",
+            )
+
         zones = self.config.get("zones", {})
 
         # Check each zone in order of priority
@@ -351,30 +371,10 @@ class DuvalTriangle1:
                     detected_zone = zone_name
                     break
 
-        # If no zone matched, check for normal or undetermined
+        # If no zone matched, return undetermined
         if detected_zone is None:
-            # Check if gases are very low (normal operation)
-            if ch4 + c2h4 + c2h2 < 10:  # Very low total
-                fault_type = FaultType.NORMAL
-                detected_zone = "NORMAL"
-                explanation = self._generate_explanation(
-                    fault_type, ch4_pct, c2h4_pct, c2h2_pct, detected_zone
-                )
-                return DuvalResult(
-                    fault_type=fault_type,
-                    confidence=0.90,
-                    explanation=explanation,
-                    method_name=self.method_name,
-                    gas_percentages={
-                        "CH4": ch4_pct,
-                        "C2H4": c2h4_pct,
-                        "C2H2": c2h2_pct,
-                    },
-                    zone=detected_zone,
-                )
-            else:
-                fault_type = FaultType.UNDETERMINED
-                detected_zone = "UNDETERMINED"
+            fault_type = FaultType.UNDETERMINED
+            detected_zone = "UNDETERMINED"
 
         fault_type = self._get_fault_type(detected_zone)
         confidence = self._calculate_confidence(
