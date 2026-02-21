@@ -1,0 +1,471 @@
+# Recommendation Templates for TransformerGuard
+# Defines maintenance recommendations by fault type, health, thermal, and RUL
+
+recommendations:
+  # DGA Fault-Based Recommendations
+  
+  d1_fault:
+    fault_type: "D1"
+    category: "DGA - Low Energy Discharge"
+    description: "Low-energy discharge detected"
+    actions:
+      - action: "Internal inspection of tank and windings"
+        timeframe: "Within 14 days"
+        rationale: "Low-energy discharge may indicate loose connections or minor arcing that requires investigation"
+        priority: 2
+        estimated_cost: "$10,000 - $25,000"
+        references:
+          - "IEEE C57.104"
+          - "IEEE C57.125"
+      
+      - action: "Perform insulation resistance testing"
+        timeframe: "Within 7 days"
+        rationale: "Verify integrity of insulation system"
+        priority: 2
+        estimated_cost: "$3,000 - $8,000"
+        references:
+          - "IEEE C57.12.00"
+      
+      - action: "Check all connections and tap changer"
+        timeframe: "Within 14 days"
+        rationale: "Loose connections are common cause of D1 faults"
+        priority: 2
+        estimated_cost: "$2,000 - $5,000"
+        references:
+          - "IEEE C57.104"
+      
+      - action: "Consider oil purification treatment"
+        timeframe: "Within 30 days"
+        rationale: "Remove dissolved gases and moisture to prevent further degradation"
+        priority: 3
+        estimated_cost: "$5,000 - $15,000"
+        references:
+          - "IEEE C57.104"
+
+  d2_fault:
+    fault_type: "D2"
+    category: "DGA - High Energy Discharge"
+    description: "High-energy discharge (arcing) detected"
+    actions:
+      - action: "Emergency internal inspection"
+        timeframe: "Within 7 days"
+        rationale: "High-energy discharge indicates severe fault activity - arcing with significant heat"
+        priority: 1
+        estimated_cost: "$15,000 - $35,000"
+        references:
+          - "IEEE C57.104"
+          - "IEEE C57.125"
+      
+      - action: "Comprehensive electrical testing"
+        timeframe: "Within 7 days"
+        rationale: "Assess extent of damage to insulation system"
+        priority: 1
+        estimated_cost: "$8,000 - $20,000"
+        references:
+          - "IEEE C57.12.00"
+      
+      - action: "Prepare for transformer replacement evaluation"
+        timeframe: "Immediate"
+        rationale: "D2 faults often indicate irreversible damage requiring replacement"
+        priority: 1
+        estimated_cost: "$150,000 - $500,000+"
+        references:
+          - "IEEE C57.125"
+      
+      - action: "Oil analysis and dissolved gas trending"
+        timeframe: "Within 3 days"
+        rationale: "Monitor gas generation rate to assess fault severity"
+        priority: 1
+        estimated_cost: "$500 - $1,500"
+        references:
+          - "IEEE C57.104"
+
+  pd_fault:
+    fault_type: "PD"
+    category: "DGA - Partial Discharge"
+    description: "Partial discharge activity detected"
+    actions:
+      - action: "Perform frequency response analysis (FRA)"
+        timeframe: "Within 30 days"
+        rationale: "PD activity may indicate mechanical deformation or insulation voids"
+        priority: 3
+        estimated_cost: "$5,000 - $15,000"
+        references:
+          - "IEEE C57.104"
+      
+      - action: "Inspect bushings and high-voltage terminals"
+        timeframe: "Within 14 days"
+        rationale: "PD often originates from termination issues"
+        priority: 2
+        estimated_cost: "$2,000 - $8,000"
+        references:
+          - "IEEE C57.104"
+      
+      - action: "Review loading history for overvoltage conditions"
+        timeframe: "Within 7 days"
+        rationale: "Overvoltage can accelerate PD activity"
+        priority: 3
+        estimated_cost: "Staff time"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Increase DGA monitoring frequency"
+        timeframe: "Immediate"
+        rationale: "Track PD activity progression"
+        priority: 2
+        estimated_cost: "$500 - $2,000"
+        references:
+          - "IEEE C57.104"
+
+  t1_fault:
+    fault_type: "T1"
+    category: "DGA - Low Temperature Thermal"
+    description: "Thermal fault < 300°C"
+    actions:
+      - action: "Cooling system inspection and cleaning"
+        timeframe: "Within 30 days"
+        rationale: "Low-temperature thermal fault may indicate cooling issues"
+        priority: 3
+        estimated_cost: "$3,000 - $10,000"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Check load levels and distribution"
+        timeframe: "Within 14 days"
+        rationale: "Overloading can cause localized heating"
+        priority: 2
+        estimated_cost: "Staff time"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Infrared thermography survey"
+        timeframe: "Within 14 days"
+        rationale: "Identify hot spots visually"
+        priority: 2
+        estimated_cost: "$2,000 - $5,000"
+        references:
+          - "IEEE C57.91"
+
+  t2_fault:
+    fault_type: "T2"
+    category: "DGA - Medium Temperature Thermal"
+    description: "Thermal fault 300-700°C"
+    actions:
+      - action: "Reduce loading to 70% of rated capacity"
+        timeframe: "Immediate (48 hours)"
+        rationale: "Medium-temperature thermal fault indicates significant degradation"
+        priority: 1
+        estimated_cost: "Operational impact"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Detailed cooling system inspection"
+        timeframe: "Within 7 days"
+        rationale: "Verify all cooling equipment operational"
+        priority: 1
+        estimated_cost: "$5,000 - $15,000"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Internal inspection for hot spots"
+        timeframe: "Within 14 days"
+        rationale: "T2 faults indicate thermal deterioration"
+        priority: 2
+        estimated_cost: "$15,000 - $30,000"
+        references:
+          - "IEEE C57.104"
+      
+      - action: "Evaluate for transformer replacement"
+        timeframe: "Within 30 days"
+        rationale: "T2 faults suggest advanced degradation"
+        priority: 2
+        estimated_cost: "Planning phase"
+        references:
+          - "IEEE C57.125"
+
+  t3_fault:
+    fault_type: "T3"
+    category: "DGA - High Temperature Thermal"
+    description: "Thermal fault > 700°C"
+    actions:
+      - action: "Immediate load reduction to 50%"
+        timeframe: "Immediate"
+        rationale: "High-temperature thermal fault is critical - severe overheating with carbonization risk"
+        priority: 1
+        estimated_cost: "Operational impact"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Emergency cooling system verification"
+        timeframe: "Within 24 hours"
+        rationale: "Verify all cooling methods operational"
+        priority: 1
+        estimated_cost: "$5,000 - $15,000"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Schedule immediate internal inspection"
+        timeframe: "Within 7 days"
+        rationale: "T3 faults indicate severe thermal fault with carbonization risk"
+        priority: 1
+        estimated_cost: "$20,000 - $40,000"
+        references:
+          - "IEEE C57.104"
+      
+      - action: "Prepare transformer replacement plan"
+        timeframe: "Immediate"
+        rationale: "T3 faults typically require transformer replacement"
+        priority: 1
+        estimated_cost: "$150,000 - $500,000+"
+        references:
+          - "IEEE C57.125"
+
+  # Health-Based Recommendations
+
+  health_critical:
+    health_category: "Critical"
+    health_score_threshold: 25
+    actions:
+      - action: "Notify management of critical condition"
+        timeframe: "Immediate"
+        rationale: "Health index indicates transformer at end of life"
+        priority: 1
+        references:
+          - "IEEE C57.125"
+      
+      - action: "Implement enhanced condition monitoring"
+        timeframe: "Immediate"
+        rationale: "Increase monitoring frequency for critical assets"
+        priority: 1
+        estimated_cost: "$1,000 - $5,000/month"
+        references:
+          - "IEEE C57.104"
+      
+      - action: "Develop replacement plan and budget"
+        timeframe: "Within 30 days"
+        rationale: "Plan for capital expenditure"
+        priority: 1
+        estimated_cost: "Planning phase"
+        references:
+          - "IEEE C57.125"
+
+  health_poor:
+    health_category: "Poor"
+    health_score_threshold: 50
+    actions:
+      - action: "Schedule detailed condition assessment"
+        timeframe: "Within 30 days"
+        rationale: "Poor health requires comprehensive evaluation"
+        priority: 2
+        estimated_cost: "$10,000 - $25,000"
+        references:
+          - "IEEE C57.104"
+      
+      - action: "Review maintenance history and costs"
+        timeframe: "Within 14 days"
+        rationale: "Assess cost-effectiveness of continued maintenance"
+        priority: 2
+        estimated_cost: "Staff time"
+        references:
+          - "IEEE C57.125"
+      
+      - action: "Evaluate spare transformer availability"
+        timeframe: "Within 60 days"
+        rationale: "Plan for contingency"
+        priority: 2
+        estimated_cost: "Varies"
+        references:
+          - "IEEE C57.12.00"
+
+  health_fair:
+    health_category: "Fair"
+    health_score_threshold: 70
+    actions:
+      - action: "Schedule routine maintenance"
+        timeframe: "Within 90 days"
+        rationale: "Fair condition - maintain through scheduled maintenance"
+        priority: 3
+        estimated_cost: "$5,000 - $15,000"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Continue DGA monitoring program"
+        timeframe: "Ongoing"
+        rationale: "Track trends for early fault detection"
+        priority: 3
+        estimated_cost: "$500 - $2,000/year"
+        references:
+          - "IEEE C57.104"
+
+  # Thermal-Based Recommendations
+
+  thermal_hotspot_high:
+    condition: "hotspot_temp > 120"
+    actions:
+      - action: "Reduce load to recommended level"
+        timeframe: "Within 48 hours"
+        rationale: "Hot-spot temperature above IEEE C57.91 alarm limit"
+        priority: 1
+        estimated_cost: "Operational impact"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Verify cooling system operation"
+        timeframe: "Within 24 hours"
+        rationale: "Check fans, pumps, and radiators"
+        priority: 1
+        estimated_cost: "$2,000 - $10,000"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Inspect oil level and quality"
+        timeframe: "Within 7 days"
+        rationale: "Low oil or degradation can cause overheating"
+        priority: 2
+        estimated_cost: "$1,000 - $3,000"
+        references:
+          - "IEEE C57.104"
+
+  thermal_topoil_high:
+    condition: "topoil_temp > 105"
+    actions:
+      - action: "Monitor top-oil temperature trend"
+        timeframe: "Ongoing"
+        rationale: "High top-oil temperature indicates cooling issues"
+        priority: 2
+        estimated_cost: "Staff time"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Clean radiators and heat exchangers"
+        timeframe: "Within 30 days"
+        rationale: "Improve cooling efficiency"
+        priority: 3
+        estimated_cost: "$3,000 - $8,000"
+        references:
+          - "IEEE C57.91"
+
+  # RUL-Based Recommendations
+
+  rul_critical:
+    rul_threshold: 30
+    actions:
+      - action: "Emergency transformer replacement planning"
+        timeframe: "Immediate"
+        rationale: "RUL less than 30 days - critical failure risk"
+        priority: 1
+        estimated_cost: "$150,000 - $500,000+"
+        references:
+          - "IEEE C57.125"
+      
+      - action: "Implement risk mitigation measures"
+        timeframe: "Immediate"
+        rationale: "Reduce load and increase monitoring"
+        priority: 1
+        estimated_cost: "Operational impact"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Notify all stakeholders"
+        timeframe: "Immediate"
+        rationale: "Ensure all parties aware of critical condition"
+        priority: 1
+        estimated_cost: "Staff time"
+        references:
+          - "IEEE C57.125"
+
+  rul_warning:
+    rul_threshold: 90
+    actions:
+      - action: "Expedite replacement procurement"
+        timeframe: "Within 30 days"
+        rationale: "RUL indicates replacement needed soon"
+        priority: 2
+        estimated_cost: "$150,000 - $500,000+"
+        references:
+          - "IEEE C57.125"
+      
+      - action: "Increase monitoring frequency"
+        timeframe: "Immediate"
+        rationale: "Track condition more closely"
+        priority: 2
+        estimated_cost: "$500 - $2,000/month"
+        references:
+          - "IEEE C57.104"
+
+  rul_monitor:
+    rul_threshold: 180
+    actions:
+      - action: "Include in next budget cycle"
+        timeframe: "Within 90 days"
+        rationale: "Plan for replacement in next fiscal year"
+        priority: 3
+        estimated_cost: "Planning phase"
+        references:
+          - "IEEE C57.125"
+      
+      - action: "Continue routine monitoring"
+        timeframe: "Ongoing"
+        rationale: "Track RUL trend"
+        priority: 4
+        estimated_cost: "Staff time"
+        references:
+          - "IEEE C57.104"
+
+  # Oil Quality Recommendations
+
+  oil_quality_degraded:
+    condition: "oil_quality_score < 50"
+    actions:
+      - action: "Perform comprehensive oil analysis"
+        timeframe: "Within 14 days"
+        rationale: "Assess oil condition and contaminants"
+        priority: 2
+        estimated_cost: "$500 - $1,500"
+        references:
+          - "IEEE C57.104"
+      
+      - action: "Consider oil purification"
+        timeframe: "Within 30 days"
+        rationale: "Remove moisture and dissolved gases"
+        priority: 2
+        estimated_cost: "$5,000 - $15,000"
+        references:
+          - "IEEE C57.104"
+      
+      - action: "Inspect gaskets and seals"
+        timeframe: "Within 30 days"
+        rationale: "Check for moisture ingress"
+        priority: 2
+        estimated_cost: "$1,000 - $3,000"
+        references:
+          - "IEEE C57.104"
+
+  # General Maintenance Recommendations
+
+  routine_maintenance:
+    category: "General"
+    actions:
+      - action: "Annual visual inspection"
+        timeframe: "Every 12 months"
+        rationale: "Basic maintenance requirement"
+        priority: 4
+        estimated_cost: "$500 - $2,000"
+        references:
+          - "IEEE C57.91"
+      
+      - action: "Biennial electrical testing"
+        timeframe: "Every 24 months"
+        rationale: "Verify insulation integrity"
+        priority: 3
+        estimated_cost: "$5,000 - $15,000"
+        references:
+          - "IEEE C57.12.00"
+      
+      - action: "5-year oil analysis suite"
+        timeframe: "Every 60 months"
+        rationale: "Comprehensive oil assessment"
+        priority: 3
+        estimated_cost: "$1,500 - $3,000"
+        references:
+          - "IEEE C57.104"

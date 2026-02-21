@@ -1,0 +1,369 @@
+# Alert Templates for TransformerGuard
+# Defines alert conditions, messages, and recommended actions
+
+alerts:
+  # Critical DGA Alerts
+  critical_dga_d2:
+    condition: "health_score < 25 AND fault_type == 'D2'"
+    title: "CRITICAL: {transformer_name} - High-Energy Discharge"
+    message: |
+      High-energy discharge (D2) detected with critical gas concentrations.
+      Immediate attention required to prevent catastrophic failure.
+      Fault indicates arcing inside the transformer.
+    priority: CRITICAL
+    category: DGA
+    actions:
+      - "Reduce load immediately to minimum"
+      - "Schedule emergency internal inspection within 7 days"
+      - "Notify management of critical condition"
+      - "Prepare contingency plan"
+      - "Test insulation resistance"
+    references:
+      - "IEEE C57.104"
+
+  critical_dga_t3:
+    condition: "health_score < 25 AND fault_type == 'T3'"
+    title: "CRITICAL: {transformer_name} - High-Temperature Thermal Fault"
+    message: |
+      High-temperature thermal fault (T3 > 700°C) detected.
+      Severe overheating may cause irreversible damage.
+      Carbonization of insulation likely.
+    priority: CRITICAL
+    category: DGA
+    actions:
+      - "Reduce load to 50% immediately"
+      - "Verify all cooling equipment operational"
+      - "Schedule emergency inspection"
+      - "Plan for transformer replacement"
+    references:
+      - "IEEE C57.104"
+      - "IEEE C57.91"
+
+  critical_dga_multiple:
+    condition: "gas_exceed_count >= 3"
+    title: "CRITICAL: {transformer_name} - Multiple Gas Limits Exceeded"
+    message: |
+      {exceed_count} gas concentrations exceed IEEE C57.104 limits.
+      This indicates significant transformer degradation.
+    priority: CRITICAL
+    category: DGA
+    actions:
+      - "Perform detailed DGA analysis"
+      - "Schedule oil sampling for confirmation"
+      - "Increase monitoring frequency"
+      - "Plan for comprehensive inspection"
+    references:
+      - "IEEE C57.104"
+
+  # High Priority DGA Alerts
+  high_dga_d1:
+    condition: "fault_type == 'D1'"
+    title: "HIGH: {transformer_name} - Low-Energy Discharge"
+    message: |
+      Low-energy discharge (D1) detected.
+      May indicate loose connections, sparking, or minor arcing.
+    priority: HIGH
+    category: DGA
+    actions:
+      - "Internal inspection within 14 days"
+      - "Perform insulation resistance testing"
+      - "Check all connections and tap changers"
+      - "Consider oil purification"
+    references:
+      - "IEEE C57.104"
+
+  high_dga_t2:
+    condition: "fault_type == 'T2'"
+    title: "HIGH: {transformer_name} - Medium-Temperature Thermal Fault"
+    message: |
+      Medium-temperature thermal fault (T2: 300-700°C) detected.
+      Indicates significant thermal degradation.
+    priority: HIGH
+    category: DGA
+    actions:
+      - "Reduce loading to 70% within 48 hours"
+      - "Inspect cooling system"
+      - "Check for hot spots"
+      - "Schedule internal inspection"
+    references:
+      - "IEEE C57.104"
+      - "IEEE C57.91"
+
+  high_dga_partial_discharge:
+    condition: "fault_type == 'PD'"
+    title: "HIGH: {transformer_name} - Partial Discharge Activity"
+    message: |
+      Partial discharge activity detected.
+      May indicate insulation deterioration or void formation.
+    priority: HIGH
+    category: DGA
+    actions:
+      - "Perform frequency response analysis (FRA)"
+      - "Inspect bushings and terminals"
+      - "Review loading history"
+      - "Increase DGA monitoring frequency"
+    references:
+      - "IEEE C57.104"
+
+  # Thermal Alerts
+  thermal_overload_emergency:
+    condition: "hotspot_temp > 140"
+    title: "THERMAL EMERGENCY: {transformer_name}"
+    message: |
+      Hot-spot temperature {hotspot_temp}°C exceeds IEEE C57.91
+      emergency limit of 140°C.
+      Immediate load reduction required to prevent damage.
+    priority: CRITICAL
+    category: THERMAL
+    actions:
+      - "Reduce load to minimum immediately"
+      - "Verify cooling system operation"
+      - "Monitor temperature continuously"
+      - "Prepare for emergency shutdown if needed"
+    references:
+      - "IEEE C57.91"
+
+  thermal_overload_alarm:
+    condition: "hotspot_temp > 120"
+    title: "THERMAL ALARM: {transformer_name}"
+    message: |
+      Hot-spot temperature {hotspot_temp}°C exceeds IEEE C57.91
+      alarm limit of 120°C.
+      Recommend reducing load to {recommended_load}%.
+    priority: HIGH
+    category: THERMAL
+    actions:
+      - "Reduce loading to {recommended_load}%"
+      - "Inspect cooling system (fans, pumps, radiators)"
+      - "Check oil level and quality"
+      - "Monitor temperature trend"
+    references:
+      - "IEEE C57.91"
+
+  thermal_overload_warning:
+    condition: "hotspot_temp > 110"
+    title: "THERMAL WARNING: {transformer_name}"
+    message: |
+      Hot-spot temperature {hotspot_temp}°C exceeds normal limit of 110°C.
+      Monitor closely and check cooling system.
+    priority: MEDIUM
+    category: THERMAL
+    actions:
+      - "Monitor thermal conditions"
+      - "Verify cooling system operating normally"
+      - "Review load profile"
+    references:
+      - "IEEE C57.91"
+
+  topoil_overheating:
+    condition: "topoil_temp > 115"
+    title: "TOP-OIL OVERHEATING: {transformer_name}"
+    message: |
+      Top-oil temperature {topoil_temp}°C exceeds emergency limit of 115°C.
+    priority: HIGH
+    category: THERMAL
+    actions:
+      - "Reduce load"
+      - "Verify oil level"
+      - "Inspect cooling equipment"
+      - "Check for oil circulation issues"
+    references:
+      - "IEEE C57.91"
+
+  # Health Index Alerts
+  health_critical:
+    condition: "health_score < 25"
+    title: "CRITICAL HEALTH: {transformer_name}"
+    message: |
+      Health index {health_score} indicates critical condition.
+      Transformer requires immediate attention and possible replacement.
+    priority: CRITICAL
+    category: HEALTH
+    actions:
+      - "Notify management immediately"
+      - "Reduce load to minimum"
+      - "Plan for replacement"
+      - "Review spare transformer availability"
+      - "Implement enhanced monitoring"
+    references:
+      - "IEEE C57.125"
+
+  health_poor:
+    condition: "health_score < 50"
+    title: "POOR HEALTH: {transformer_name}"
+    message: |
+      Health index {health_score} indicates poor condition.
+      Urgent maintenance and evaluation required.
+    priority: HIGH
+    category: HEALTH
+    actions:
+      - "Schedule detailed inspection within 30 days"
+      - "Review maintenance history"
+      - "Evaluate replacement timeline"
+      - "Increase monitoring frequency"
+    references:
+      - "IEEE C57.125"
+
+  health_fair:
+    condition: "health_score < 70"
+    title: "FAIR HEALTH: {transformer_name}"
+    message: |
+      Health index {health_score} indicates fair condition.
+      Scheduled maintenance recommended.
+    priority: MEDIUM
+    category: HEALTH
+    actions:
+      - "Schedule routine maintenance within 90 days"
+      - "Continue DGA monitoring program"
+      - "Review loading practices"
+    references:
+      - "IEEE C57.91"
+
+  # Loading Alerts
+  loading_overload:
+    condition: "load_percent > 100"
+    title: "OVERLOAD: {transformer_name}"
+    message: |
+      Transformer loading at {load_percent}% exceeds rated capacity.
+      Immediate load reduction required to prevent damage.
+    priority: CRITICAL
+    category: LOADING
+    actions:
+      - "Reduce load immediately below 100%"
+      - "Monitor temperatures closely"
+      - "Review emergency loading procedures"
+      - "Assess overload duration and history"
+    references:
+      - "IEEE C57.91"
+
+  loading_high:
+    condition: "load_percent > 90"
+    title: "HIGH LOAD: {transformer_name}"
+    message: |
+      Transformer loading at {load_percent}% is above recommended limit.
+      Monitor temperatures closely.
+    priority: HIGH
+    category: LOADING
+    actions:
+      - "Monitor thermal conditions continuously"
+      - "Review load forecast"
+      - "Prepare load shedding plan if needed"
+      - "Verify cooling system at full capacity"
+    references:
+      - "IEEE C57.91"
+
+  # Prediction Alerts
+  rul_critical:
+    condition: "rul_days < 30"
+    title: "RUL CRITICAL: {transformer_name}"
+    message: |
+      Estimated Remaining Useful Life: {rul_days} days.
+      Immediate action required for replacement planning.
+    priority: CRITICAL
+    category: PREDICTION
+    actions:
+      - "Notify management immediately"
+      - "Expedite replacement order"
+      - "Prepare contingency plan"
+      - "Increase inspection frequency"
+      - "Reduce load to minimize stress"
+    references:
+      - "IEEE C57.125"
+
+  rul_warning:
+    condition: "rul_days < 90"
+    title: "RUL WARNING: {transformer_name}"
+    message: |
+      Estimated Remaining Useful Life: {rul_days} days.
+      Plan for maintenance or replacement.
+    priority: HIGH
+    category: PREDICTION
+    actions:
+      - "Begin replacement planning"
+      - "Schedule detailed assessment"
+      - "Budget for replacement"
+      - "Increase monitoring frequency"
+    references:
+      - "IEEE C57.125"
+
+  failure_probability_high:
+    condition: "failure_probability > 0.7"
+    title: "HIGH FAILURE RISK: {transformer_name}"
+    message: |
+      Probability of failure: {failure_probability_pct}% within 12 months.
+      Immediate action required.
+    priority: CRITICAL
+    category: PREDICTION
+    actions:
+      - "Implement risk mitigation measures"
+      - "Increase monitoring frequency"
+      - "Prepare emergency response plan"
+      - "Notify all stakeholders"
+    references:
+      - "IEEE C57.125"
+
+  failure_probability_elevated:
+    condition: "failure_probability > 0.3"
+    title: "FAILURE RISK ELEVATED: {transformer_name}"
+    message: |
+      Probability of failure: {failure_probability_pct}% within 12 months.
+      Monitor closely.
+    priority: HIGH
+    category: PREDICTION
+    actions:
+      - "Review maintenance strategy"
+      - "Consider condition-based maintenance"
+      - "Increase monitoring frequency"
+      - "Plan for contingency"
+    references:
+      - "IEEE C57.125"
+
+  # Anomaly Alerts
+  anomaly_detected:
+    condition: "anomaly_detected == true"
+    title: "ANOMALY DETECTED: {transformer_name}"
+    message: |
+      Unusual pattern detected in transformer operating data.
+      Further investigation recommended.
+    priority: MEDIUM
+    category: ANOMALY
+    actions:
+      - "Review recent operating history"
+      - "Analyze trend data"
+      - "Consider additional monitoring"
+      - "Compare with similar units"
+    references:
+      - "IEEE C57.104"
+
+  # Maintenance Alerts
+  maintenance_overdue:
+    condition: "days_since_maintenance > maintenance_interval"
+    title: "MAINTENANCE OVERDUE: {transformer_name}"
+    message: |
+      Scheduled maintenance is overdue by {days_overdue} days.
+      Regular maintenance is essential for reliable operation.
+    priority: MEDIUM
+    category: MAINTENANCE
+    actions:
+      - "Schedule maintenance at earliest opportunity"
+      - "Perform routine inspection"
+      - "Update maintenance records"
+    references:
+      - "IEEE C57.91"
+
+  # Oil Quality Alerts
+  oil_quality_degraded:
+    condition: "oil_quality_score < 50"
+    title: "OIL QUALITY DEGRADED: {transformer_name}"
+    message: |
+      Oil quality score indicates significant degradation.
+      Oil treatment or replacement recommended.
+    priority: HIGH
+    category: MAINTENANCE
+    actions:
+      - "Perform oil analysis"
+      - "Consider oil purification"
+      - "Check for moisture ingress"
+      - "Inspect gaskets and seals"
+    references:
+      - "IEEE C57.104"
